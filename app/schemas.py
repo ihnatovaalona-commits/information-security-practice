@@ -61,3 +61,29 @@ class LoginResponse(BaseModel):
     user_id: int
     username: str
     roles: list[str] = []
+
+# JWT: ответ с токенами доступа и обновления
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+
+
+# Данные для обновления токенов
+class TokenRefreshRequest(BaseModel):
+    refresh_token: str
+
+
+# Информация о текущем пользователе
+class UserInfo(BaseModel):
+    id: int
+    username: str
+    email: str
+    full_name: str
+    roles: list[str]
+
+class GradeCreate(BaseModel):
+    student_id: int = Field(..., gt=0)
+    subject_id: int = Field(..., gt=0)
+    grade: float = Field(..., ge=0, le=100)
+    comment: str | None = Field(None, max_length=500)
