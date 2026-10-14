@@ -1,4 +1,5 @@
 
+import bleach
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -51,11 +52,23 @@ def add_grade(
             detail="Студента або дисципліну не знайдено",
         )
 
+    # Очищення комментария от HTML и JavaScript для защиты от XSS.
+    safe_comment = (
+        bleach.clean(
+            data.comment,
+            tags=[],
+            attributes={},
+            strip=True,
+        )
+        if data.comment
+        else data.comment
+    )
+
     grade = Grade(
         student_id=data.student_id,
         subject_id=data.subject_id,
         grade=data.grade,
-        comment=data.comment,
+        comment=safe_comment,
         assigned_by=current_user.id,
     )
 
