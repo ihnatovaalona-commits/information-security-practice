@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+.venv/
+data/
+nginx/certs/
+reports/
+screenshots/
+**/__pycache__
+*.pyc
+*.md
+*.pdf
+.local-ca/

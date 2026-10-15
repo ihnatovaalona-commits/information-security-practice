@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from jose import JWTError
+from jwt import PyJWTError as JWTError
 from sqlalchemy.orm import Session
 
 from app.audit.detector import check_brute_force, check_off_hours_access

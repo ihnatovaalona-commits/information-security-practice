@@ -1,0 +1,28 @@
+== 1. Секрети ==
+  [OK]   .env у .gitignore
+  [OK]   .env не в Git
+  [OK]   Секретів в історії Git немає
+  [OK]   fallback-секретів у коді немає
+  [OK]   docker-compose.yml без dev-секретів
+== 2. Docker ==
+  [OK]   Dockerfile: USER (non-root)
+  [OK]   Dockerfile: HEALTHCHECK
+  [OK]   Без --reload
+  [OK]   compose: read_only
+  [OK]   compose: no-new-privileges
+  [OK]   Контейнер працює як 'appuser'
+  [OK]   healthcheck: healthy
+== 3. HTTPS і заголовки ==
+  [OK]   Заголовок Strict-Transport-Security
+  [OK]   Заголовок Content-Security-Policy
+  [OK]   Заголовок X-Frame-Options
+  [OK]   Заголовок X-Content-Type-Options
+  [OK]   Версія сервера прихована
+  [OK]   HTTP -> HTTPS (301)
+== 4. Залежності, код, образ ==
+  [OK]   pip-audit: вразливостей не знайдено
+  [OK]   Bandit: HIGH-знахідок немає
+  [OK]   Trivy: CRITICAL з виправленням немає
+==================================
+FAIL: 0  WARN: 0
+SECURITY CHECK PASSED

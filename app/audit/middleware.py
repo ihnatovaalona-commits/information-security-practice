@@ -1,6 +1,6 @@
 import time
 
-from jose import JWTError
+from jwt import PyJWTError as JWTError
 from starlette.concurrency import run_in_threadpool
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request

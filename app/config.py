@@ -1,10 +1,11 @@
 import os
 
-# Секретный ключ читается из переменных окружения
-SECRET_KEY = os.getenv(
-    "JWT_SECRET_KEY",
-    "dev-only-secret-change-me",
-)
+# Секрет лише з оточення, без fallback: без ключа застосунок не стартує
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "")
+if len(SECRET_KEY) < 32:
+    raise RuntimeError(
+        "JWT_SECRET_KEY не задано або коротший за 32 символи (openssl rand -hex 32)"
+    )
 
 ALGORITHM = "HS256"
 

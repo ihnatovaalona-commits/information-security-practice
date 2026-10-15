@@ -3,13 +3,37 @@ services:
     build: .
     container_name: dean_office_api
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"   # API лише з цього ПК; ззовні — через Nginx
     volumes:
-      - .:/app_code
-      - db_data:/app_code/data
+      - db_data:/app_code/data  # bind-mount коду прибрано: образ незмінний
     environment:
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-dev-only-secret-change-me}
-      - CORS_ORIGINS=http://localhost:3000,http://localhost:8000
+      # Секрети лише з .env; без них compose не запуститься
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:?JWT_SECRET_KEY не задано в .env}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY:?ENCRYPTION_KEY не задано в .env}
+      - BLIND_INDEX_KEY=${BLIND_INDEX_KEY:?BLIND_INDEX_KEY не задано в .env}
+      - ENCRYPTION_KEY_OLD=${ENCRYPTION_KEY_OLD:-}
+      - CORS_ORIGINS=http://localhost:3000,https://localhost
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: dean_office_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      api:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
