@@ -16,3 +16,8 @@ env/
 
 .pytest_cache/
 .mypy_cache/
+# ZPR-2: certificates, backups, scan artefacts with secrets
+nginx/certs/
+*.key
+*.db.enc
+.local-ca/
